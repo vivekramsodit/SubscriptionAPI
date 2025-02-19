@@ -1,20 +1,19 @@
-package sr.unasat.form.api.dto;
+package sr.unasat.subscription.api.dto;
 
 public class SubscriptionDTO {
+    private Long id;
     private String firstname;
     private String lastname;
     private String email;
     private String phonenumber;
-    //subscription
 
-    public SubscriptionDTO() {
+    // Getters and Setters
+    public Long getId() {
+        return id;
     }
 
-    public SubscriptionDTO(String firstname, String lastname, String email, String phonenumber) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.email = email;
-        this.phonenumber = phonenumber;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstname() {
@@ -52,7 +51,8 @@ public class SubscriptionDTO {
     @Override
     public String toString() {
         return "SubscriptionDTO{" +
-                "firstname='" + firstname + '\'' +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", email='" + email + '\'' +
                 ", phonenumber='" + phonenumber + '\'' +
