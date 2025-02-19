@@ -1,5 +1,6 @@
 package sr.unasat.subscription.api;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.jackson.JacksonFeature;
@@ -26,6 +27,10 @@ public class SubscriptionConfig{
         ServletHolder jerseyServlet = new ServletHolder(new ServletContainer(config));
         context.addServlet(jerseyServlet, "/api/*"); // Map to /api/*
         context.addServlet(jerseyServlet, "/*");
+
+        // Register CORSFilter
+        FilterHolder corsFilter = new FilterHolder(new CORSFilter());
+        context.addFilter(corsFilter, "/*", null);
 
         // Set the handler and start the server
         server.setHandler(context);
