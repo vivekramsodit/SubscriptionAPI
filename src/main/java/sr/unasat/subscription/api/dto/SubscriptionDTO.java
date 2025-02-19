@@ -1,18 +1,29 @@
 package sr.unasat.subscription.api.dto;
 
 public class SubscriptionDTO {
-    private Long id;
+    private int id;
     private String firstname;
     private String lastname;
     private String email;
     private String phonenumber;
 
+    public SubscriptionDTO() {
+    }
+
+    public SubscriptionDTO(int id, String firstname, String lastname, String email, String phonenumber) {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.phonenumber = phonenumber;
+    }
+
     // Getters and Setters
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

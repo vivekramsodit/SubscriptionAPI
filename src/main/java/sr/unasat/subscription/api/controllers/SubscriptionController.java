@@ -4,16 +4,22 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import sr.unasat.subscription.api.dto.SubscriptionDTO;
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
+
 
 @Path("/subscriptions")
 public class SubscriptionController {
 
-    private static final List<SubscriptionDTO> subscriptions = new ArrayList<>();
-    private static final AtomicLong idCounter = new AtomicLong();
+    private static final List<SubscriptionDTO> subscriptions = new ArrayList<>(Arrays.asList(
+            new SubscriptionDTO(1, "John", "Doe", "john.doe@example.com", "1234567890"),
+            new SubscriptionDTO(2, "Jane", "Smith", "jane.smith@example.com", "0987654321"),
+            new SubscriptionDTO(3, "Alice", "Johnson", "alice.johnson@example.com", "1122334455"),
+            new SubscriptionDTO(4, "Bob", "Brown", "bob.brown@example.com", "5566778899"),
+            new SubscriptionDTO(5, "Charlie", "Davis", "charlie.davis@example.com", "6677889900")
+    ));
+    private static int idCounter = 0;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -40,7 +46,7 @@ public class SubscriptionController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createSubscription(SubscriptionDTO subscription) {
-        subscription.setId(idCounter.incrementAndGet());
+        subscription.setId(++idCounter);
         subscriptions.add(subscription);
         return Response.status(Response.Status.CREATED).entity(subscription).build();
     }
