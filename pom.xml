@@ -4,7 +4,7 @@
     <groupId>sr.unasat</groupId>
     <artifactId>subscription-api</artifactId>
     <version>1.0.0</version>
-    <name>formAPI</name>
+    <name>subscriptionAPI</name>
     <url>http://maven.apache.org</url>
 
     <dependencies>
@@ -23,12 +23,6 @@
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-json-jackson</artifactId>
             <version>3.1.1</version>
-<!--            <exclusions>
-                <exclusion>
-                    <groupId>org.glassfish.jaxb</groupId>
-                    <artifactId>jaxb-runtime</artifactId>
-                </exclusion>
-            </exclusions>-->
         </dependency>
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>

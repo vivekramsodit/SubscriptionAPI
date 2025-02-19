@@ -4,6 +4,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import sr.unasat.subscription.api.dto.SubscriptionDTO;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,15 +32,12 @@ public class SubscriptionController {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getSubscription(@PathParam("id") long id) {
-        SubscriptionDTO subscription = subscriptions.stream()
-                .filter(sub -> sub.getId() == id)
-                .findFirst()
-                .orElse(null);
-        if (subscription != null) {
-            return Response.ok(subscription).build();
-        } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
+        for (SubscriptionDTO sub : subscriptions) {
+            if (sub.getId() == id) {
+                return Response.ok(sub).build();
+            }
         }
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 
     @POST
