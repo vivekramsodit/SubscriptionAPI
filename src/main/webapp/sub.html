@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Subscription Form</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+    <h1>Subscription Form</h1>
+</header>
+
+<main>
+    <form id="subscription-form" method="post" action="http://localhost:8080/api/subscriptions/create">
+        <label for="firstname">First Name:</label>
+        <input type="text" id="firstname" name="firstname" required maxlength="50">
+        <span id="firstname-validation" class="validation-error"></span>
+        <br>
+
+        <label for="lastname">Last Name:</label>
+        <input type="text" id="lastname" name="lastname" required maxlength="50">
+        <span id="lastname-validation" class="validation-error"></span>
+        <br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required maxlength="100">
+        <span id="email-validation" class="validation-error"></span>
+        <br>
+
+        <label for="phonenumber">Phone Number:</label>
+        <input type="tel" id="phonenumber" name="phonenumber" maxlength="20">
+        <span id="phonenumber-validation" class="validation-error"></span>
+        <br>
+
+        <button type="submit">Submit</button>
+    </form>
+</main>
+
+<footer>
+    <p>&copy; 2025 Subscription Service</p>
+</footer>
+</body>
+</html>

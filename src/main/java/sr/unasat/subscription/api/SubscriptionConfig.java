@@ -6,6 +6,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
+import sr.unasat.subscription.api.config.JPAConfig;
 
 public class SubscriptionConfig{
     public static void main(String[] args) throws Exception {
@@ -31,6 +32,9 @@ public class SubscriptionConfig{
         // Register CORSFilter
         FilterHolder corsFilter = new FilterHolder(new CORSFilter());
         context.addFilter(corsFilter, "/*", null);
+
+        JPAConfig.getEntityMangerFactory();
+        JPAConfig.getEntityManger();
 
         // Set the handler and start the server
         server.setHandler(context);

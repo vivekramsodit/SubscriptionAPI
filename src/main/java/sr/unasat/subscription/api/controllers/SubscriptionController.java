@@ -4,14 +4,26 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import sr.unasat.subscription.api.dto.SubscriptionDTO;
+import sr.unasat.subscription.api.entities.Subscription;
+import sr.unasat.subscription.api.mappers.SubscriptionMapper;
+import sr.unasat.subscription.api.repositories.SubscriptionRepository;
+import sr.unasat.subscription.api.services.SubscriptionService;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 
 @Path("/subscriptions")
 public class SubscriptionController {
+
+    private SubscriptionService subscriptionService;
+    private SubscriptionMapper subscriptionMapper;
+
+    public SubscriptionController() {
+        subscriptionService = new SubscriptionService();
+        subscriptionMapper = new SubscriptionMapper();
+    }
+
+
 
     private static final List<SubscriptionDTO> subscriptions = new ArrayList<>(Arrays.asList(
             new SubscriptionDTO(1, "John", "Doe", "john.doe@example.com", "1234567890"),
@@ -20,33 +32,59 @@ public class SubscriptionController {
             new SubscriptionDTO(4, "Bob", "Brown", "bob.brown@example.com", "5566778899"),
             new SubscriptionDTO(5, "Charlie", "Davis", "charlie.davis@example.com", "6677889900")
     ));
-    private static int idCounter = 0;
 
+//    private static int idCounter = 0;
+
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public List<SubscriptionDTO> getAllSubscriptions() {
+//        return subscriptions;
+//    }
+
+    @Path("/")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<SubscriptionDTO> getAllSubscriptions() {
-        return subscriptions;
+    public List<Subscription> getAllSubscriptions() {
+        return subscriptionService.getAllSubscriptions();
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getSubscription(@PathParam("id") long id) {
-        for (SubscriptionDTO sub : subscriptions) {
-            if (sub.getId() == id) {
-                return Response.ok(sub).build();
-            }
+    public Response getSubscription(@PathParam("id") Integer id) {
+        // stap 1: zoek de subscription op basis van id, pseudocode: zoek in de database naar de subscription recorde met de aangegeven id
+        Subscription subscription = subscriptionService.findById(id);
+        //stap 2: indien de subscription niet bestaat retouneer niet gevonden
+        if (subscription == null){
+             return Response.status(Response.Status.NOT_FOUND).build();
+//            Map<String, String> responseObj = new HashMap<>();
+//            responseObj.put("message", "Subscription not found with id: " + id);
+//            return Response.status(Response.Status.NOT_FOUND)
+//                    .entity(responseObj)
+//                    .build();
+
         }
-        return Response.status(Response.Status.NOT_FOUND).build();
+        //stap 3: indien gevonden mappen naar DTO en retouneren
+        SubscriptionDTO subscriptionDTO = subscriptionMapper.toDTO(subscription);
+        return Response.status(Response.Status.OK).entity(subscriptionDTO).build();
     }
 
+//    @POST
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response createSubscription(SubscriptionDTO subscription) {
+//        subscription.setId(++idCounter);
+//        subscriptions.add(subscription);
+//        return Response.status(Response.Status.CREATED).entity(subscription).build();
+//    }
+
+    @Path("/create")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createSubscription(SubscriptionDTO subscription) {
-        subscription.setId(++idCounter);
-        subscriptions.add(subscription);
-        return Response.status(Response.Status.CREATED).entity(subscription).build();
+    public Subscription createSubscription (Subscription subscription) {
+        subscriptionService.saveSubscription(subscription);
+        return subscription;
     }
 
     @PUT
